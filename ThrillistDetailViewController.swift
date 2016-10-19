@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ThrillistDetailViewController: UIViewController {
+class ThrillistDetailViewController: UIViewController, UIScrollViewDelegate {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var commentBar: UIImageView!
@@ -36,6 +36,13 @@ class ThrillistDetailViewController: UIViewController {
             // Any code you put in here will be called when the keyboard is about to display
         }
         
+        NotificationCenter.default.addObserver(forName: Notification.Name.UIKeyboardWillHide, object: nil, queue: OperationQueue.main) { (notification: Notification) in
+            // Any code you put in here will be called when the keyboard is about to hide
+            print("Keyboard will hide")
+        }
+        
+        scrollView.delegate = self
+        
 
         commentField.becomeFirstResponder()
         // Do any additional setup after loading the view.
@@ -53,6 +60,11 @@ class ThrillistDetailViewController: UIViewController {
 
     @IBAction func didTapBackButton(_ sender: AnyObject) {
         navigationController!.popViewController(animated: true)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        view.endEditing(true)
+        print("I'm scrolling!!!!!")
     }
     
     @IBAction func didTapPost(_ sender: AnyObject) {
